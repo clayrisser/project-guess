@@ -69,7 +69,8 @@ export function guessProjectName(
   return projectName;
 }
 
-export function guessProjectDestination(name) {
+export function guessProjectDestination(name, destination) {
+  if (destination) return path.resolve(destination);
   if (emptyDir.sync(process.cwd()) || fs.existsSync(path.resolve('.git'))) {
     return process.cwd();
   }
