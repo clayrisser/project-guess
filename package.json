@@ -1,6 +1,6 @@
 {
   "name": "project-guess",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Guess info about a project",
   "homepage": "https://github.com/jamrizzi/project-guess",
   "author": {
@@ -22,8 +22,8 @@
   "dependencies": {
     "empty-dir": "^1.0.0",
     "fs-extra": "^5.0.0",
-    "lodash": "^4.17.5",
-    "parse-git-config": "^2.0.0"
+    "git-config": "0.0.7",
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

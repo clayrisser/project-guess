@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import emptyDir from 'empty-dir';
 import fs from 'fs-extra';
-import parseGitConfig from 'parse-git-config';
+import gitConfig from 'git-config';
 import path from 'path';
 import { homedir, hostname, userInfo } from 'os';
 
@@ -16,8 +16,8 @@ export function guessAuthorName() {
     }
   }
   if (!authorName || authorName.length <= 0) {
-    const gitConfig = getGitConfig();
-    authorName = gitConfig.user ? gitConfig.user.name : null;
+    const config = gitConfig.sync();
+    authorName = config.user ? config.user.name : null;
   }
   if (!authorName || authorName.length <= 0) {
     return _.startCase(guessUsername());
@@ -36,8 +36,8 @@ export function guessAuthorEmail(defaultEmail) {
     }
   }
   if (!email || email.length <= 0) {
-    const gitConfig = getGitConfig();
-    email = gitConfig.user ? gitConfig.user.email : null;
+    const config = gitConfig.sync();
+    email = config.user ? config.user.email : null;
   }
   if (!email || email.length <= 0) {
     return defaultEmail || `${userInfo().username}@${hostname()}`;
@@ -77,18 +77,22 @@ export function guessProjectDestination(name, destination) {
   return path.resolve(name);
 }
 
+export function guessProjectVersion(defaultVersion = '0.0.1') {
+  let projectVersion = '';
+  if (fs.existsSync(path.resolve('package.json'))) {
+    projectVersion = _.get(require(path.resolve('package.json')), 'version');
+  }
+  if (!projectVersion || projectVersion.length <= 0) {
+    return defaultVersion;
+  }
+  return projectVersion;
+}
+
 export function guessUsername(email = guessAuthorEmail()) {
   if (email) {
     return (email.match(/^[^@]+/g) || []).join('');
   }
   return userInfo().username;
-}
-
-function getGitConfig() {
-  return parseGitConfig.sync({
-    cwd: '/',
-    path: path.resolve(homedir(), '.config/git/config')
-  });
 }
 
 export default {
@@ -97,5 +101,6 @@ export default {
   guessProjectDescription,
   guessProjectName,
   guessProjectDestination,
+  guessProjectVersion,
   guessUsername
 };
