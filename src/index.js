@@ -83,7 +83,7 @@ export function guessUsername(email = guessAuthorEmail()) {
   return userInfo().username;
 }
 
-export function getGitConfig() {
+function getGitConfig() {
   return parseGitConfig.sync({
     cwd: '/',
     path: path.resolve(homedir(), '.config/git/config')
