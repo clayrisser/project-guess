@@ -11,12 +11,13 @@ Please &#9733; this repo if you found it useful &#9733; &#9733; &#9733;
 
 ## Features
 
-* Guess email
-* Guess username
-* Guess destination
-* Guess project name
+* Guess author email
 * Guess author name
 * Guess project description
+* Guess project destination
+* Guess project name
+* Guess project version
+* Guess username
 
 
 ## Installation
@@ -33,17 +34,30 @@ npm install --save project-guess
 
 ## Usage
 
-[Contribute](https://github.com/jamrizzi/project-guess/blob/master/CONTRIBUTING.md) usage docs
+Usage in a yeoman generator
+
+```js
+import Generator from 'yeoman-generator';
+import { guessProjectName } from 'project-guess';
+
+class extends Generator {
+  async prompting() {
+    this.context = await yo.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Project Name:',
+        default: guessProjectName()
+      }
+    ]);
+  }
+}
+```
 
 
 ## Support
 
 Submit an [issue](https://github.com/jamrizzi/project-guess/issues/new)
-
-
-## Screenshots
-
-[Contribute](https://github.com/jamrizzi/project-guess/blob/master/CONTRIBUTING.md) a screenshot
 
 
 ## Contributing

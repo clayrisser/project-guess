@@ -3,7 +3,7 @@ import emptyDir from 'empty-dir';
 import fs from 'fs-extra';
 import gitConfig from 'git-config';
 import path from 'path';
-import { homedir, hostname, userInfo } from 'os';
+import { hostname, userInfo } from 'os';
 
 export function guessAuthorName() {
   let authorName = null;
@@ -64,7 +64,9 @@ export function guessProjectName(
     projectName = _.get(require(path.resolve('package.json')), 'name');
   }
   if (!projectName || projectName.length <= 0) {
-    return (process.cwd().match(/[^\/]+$/g) || [defaultProjectName]).join('');
+    if (emptyDir.sync(process.cwd()) || fs.existsSync(path.resolve('.git'))) {
+      return (process.cwd().match(/[^\/]+$/g) || [defaultProjectName]).join('');
+    }
   }
   return projectName;
 }
