@@ -92,11 +92,11 @@ export function guessProjectName(
   if (fs.existsSync(path.resolve('package.json'))) {
     name = _.get(require(path.resolve('package.json')), 'name');
   }
-  if (
-    !_.get(name, 'length') &&
-    (emptyDir.sync(process.cwd()) || fs.existsSync(path.resolve('.git')))
-  ) {
-    return (process.cwd().match(/[^\/]+$/g) || [defaultProjectName]).join('');
+  if (!_.get(name, 'length')) {
+    if (emptyDir.sync(process.cwd()) || fs.existsSync(path.resolve('.git'))) {
+      return (process.cwd().match(/[^\/]+$/g) || [defaultProjectName]).join('');
+    }
+    return defaultProjectName;
   }
   return name;
 }
