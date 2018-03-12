@@ -13,9 +13,12 @@ Please &#9733; this repo if you found it useful &#9733; &#9733; &#9733;
 
 * Guess author email
 * Guess author name
+* Guess author url
 * Guess project description
 * Guess project destination
+* Guess project license
 * Guess project name
+* Guess project repository
 * Guess project version
 * Guess username
 

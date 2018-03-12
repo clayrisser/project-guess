@@ -3,26 +3,27 @@ import emptyDir from 'empty-dir';
 import fs from 'fs-extra';
 import gitConfig from 'git-config';
 import path from 'path';
+import licenseParser from 'license-parser';
 import { hostname, userInfo } from 'os';
 
 export function guessAuthorName() {
-  let authorName = null;
+  let name = null;
   if (fs.existsSync(path.resolve('package.json'))) {
     const author = _.get(require(path.resolve('package.json')), 'author');
     if (_.isString(author)) {
-      authorName = _.trimEnd((author.match(/^[^\<\(]+/g) || []).join(''));
+      name = _.trimEnd((author.match(/^[^\<\(]+/g) || []).join(''));
     } else {
-      authorName = _.get(author, 'name');
+      name = _.get(author, 'name');
     }
   }
-  if (!authorName || authorName.length <= 0) {
+  if (!_.get(name, 'length')) {
     const config = gitConfig.sync();
-    authorName = config.user ? config.user.name : null;
+    name = config.user ? config.user.name : null;
   }
-  if (!authorName || authorName.length <= 0) {
+  if (!_.get(name, 'length')) {
     return _.startCase(guessUsername());
   }
-  return authorName;
+  return name;
 }
 
 export function guessAuthorEmail(defaultEmail) {
@@ -35,14 +36,30 @@ export function guessAuthorEmail(defaultEmail) {
       email = _.get(author, 'email');
     }
   }
-  if (!email || email.length <= 0) {
+  if (!_.get(email, 'length')) {
     const config = gitConfig.sync();
     email = config.user ? config.user.email : null;
   }
-  if (!email || email.length <= 0) {
+  if (!_.get(email, 'length')) {
     return defaultEmail || `${userInfo().username}@${hostname()}`;
   }
   return email;
+}
+
+export function guessAuthorUrl(username = guessUsername()) {
+  let url = '';
+  if (fs.existsSync(path.resolve('package.json'))) {
+    const author = _.get(require(path.resolve('package.json')), 'author');
+    if (_.isString(author)) {
+      url = (author.match(/\([^\<\>]+(?=\))/g) || []).join('').substr(1);
+    } else {
+      url = _.get(author, 'url');
+    }
+  }
+  if (!_.get(url, 'length')) {
+    return `https://${username}.com`;
+  }
+  return url;
 }
 
 export function guessProjectDescription(
@@ -52,23 +69,35 @@ export function guessProjectDescription(
   if (fs.existsSync(path.resolve('package.json'))) {
     ({ description } = require(path.resolve('package.json')));
   }
-  if (!description || description.length <= 0) return defaultDescription;
+  if (!_.get(description, 'length')) return defaultDescription;
   return description;
+}
+
+export function guessProjectLicense(defaultLicense = 'MIT') {
+  let license = '';
+  if (fs.existsSync(path.resolve('package.json'))) {
+    license = _.get(require(path.resolve('package.json')), 'license');
+  }
+  license = _.get(licenseParser(license), '0', '');
+  if (!_.get(license, 'length')) {
+    return defaultLicense;
+  }
+  return license;
 }
 
 export function guessProjectName(
   defaultProjectName = `${guessUsername()}s-project`
 ) {
-  let projectName = null;
+  let name = null;
   if (fs.existsSync(path.resolve('package.json'))) {
-    projectName = _.get(require(path.resolve('package.json')), 'name');
+    name = _.get(require(path.resolve('package.json')), 'name');
   }
-  if (!projectName || projectName.length <= 0) {
+  if (!_.get(name, 'length')) {
     if (emptyDir.sync(process.cwd()) || fs.existsSync(path.resolve('.git'))) {
       return (process.cwd().match(/[^\/]+$/g) || [defaultProjectName]).join('');
     }
   }
-  return projectName;
+  return name;
 }
 
 export function guessProjectDestination(name) {
@@ -78,30 +107,57 @@ export function guessProjectDestination(name) {
   return path.resolve(name);
 }
 
-export function guessProjectVersion(defaultVersion = '0.0.1') {
-  let projectVersion = '';
+export function guessProjectRepository(
+  username = guessUsername(),
+  projectName
+) {
+  if (!projectName) projectName = guessProjectName(`${username}s-project`);
+  let repository = '';
   if (fs.existsSync(path.resolve('package.json'))) {
-    projectVersion = _.get(require(path.resolve('package.json')), 'version');
+    repository = _.get(require(path.resolve('package.json')), 'repository');
   }
-  if (!projectVersion || projectVersion.length <= 0) {
+  if (!_.get(repository, 'length')) {
+    repository = `https://github.com/${username}/${projectName}`;
+  }
+  return repository;
+}
+
+export function guessProjectVersion(defaultVersion = '0.0.1') {
+  let version = '';
+  if (fs.existsSync(path.resolve('package.json'))) {
+    version = _.get(require(path.resolve('package.json')), 'version');
+  }
+  if (!_.get(version, 'length')) {
     return defaultVersion;
   }
-  return projectVersion;
+  return version;
 }
 
 export function guessUsername(email = guessAuthorEmail()) {
-  if (email) {
+  let username = '';
+  if (fs.existsSync(path.resolve('package.json'))) {
+    const pkg = require(path.resolve('package.json'));
+    username = (
+      (pkg.repository || pkg.homepage || '').match(/github\.com\/[^\/]+/g) || []
+    )
+      .join('')
+      .substr(11);
+  }
+  if (!_.get(username, 'length') && email) {
     return (email.match(/^[^@]+/g) || []).join('');
   }
   return userInfo().username;
 }
 
 export default {
-  guessAuthorName,
   guessAuthorEmail,
+  guessAuthorName,
+  guessAuthorUrl,
   guessProjectDescription,
-  guessProjectName,
   guessProjectDestination,
+  guessProjectLicense,
+  guessProjectName,
+  guessProjectRepository,
   guessProjectVersion,
   guessUsername
 };
