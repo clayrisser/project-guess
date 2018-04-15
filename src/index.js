@@ -1,3 +1,4 @@
+import 'idempotent-babel-polyfill';
 import _ from 'lodash';
 import emptyDir from 'empty-dir';
 import fs from 'fs-extra';
@@ -139,7 +140,11 @@ export function guessUsername(email = guessAuthorEmail()) {
   if (fs.existsSync(path.resolve('package.json'))) {
     const pkg = require(path.resolve('package.json'));
     username = (
-      (pkg.repository || pkg.homepage || '').match(/github\.com\/[^\/]+/g) || []
+      (
+        _.get(pkg, 'repository.url', pkg.repository) ||
+        _.get(pkg, 'homepage.url', pkg.homepage) ||
+        ''
+      ).match(/github\.com\/[^\/]+/g) || []
     )
       .join('')
       .substr(11);
