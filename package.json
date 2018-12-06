@@ -1,23 +1,27 @@
 {
   "name": "project-guess",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Guess info about a project",
-  "homepage": "https://github.com/jamrizzi/project-guess",
+  "homepage": "https://github.com/codejamninja/project-guess",
   "author": {
     "name": "Jam Risser",
-    "email": "jam@jamrizzi.com",
-    "url": "https://jam.jamrizzi.com"
+    "email": "jam@codejam.ninja",
+    "url": "https://jam.codejam.ninja"
   },
   "main": "lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
-    "lint": "eslint ./",
-    "lint:fix": "eslint --fix ./",
-    "build": "npm run clean && babel src -d lib",
-    "clean": "rm -rf lib",
-    "prepublish": "npm run build"
+    "build": "npm run test && babel src -d lib",
+    "clean": "git clean -fXd -e \\!node_modules -e \\!node_modules/**/*",
+    "clean:purge": "git clean -fXd",
+    "format": "prettier --write ./src/**/*.js",
+    "lint": "npm run format && eslint ./",
+    "lint:fix": "npm run format && eslint --fix ./",
+    "prepublish": "npm run build",
+    "start": "babel-node src",
+    "test": "npm run lint"
   },
   "dependencies": {
     "empty-dir": "^1.0.0",
@@ -28,30 +32,15 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^4.18.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.9.0"
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "babel-preset-jam": "^0.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-jam": "^0.1.6"
   },
   "license": "MIT",
-  "repository": "https://github.com/jamrizzi/project-guess",
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "4"
-          }
-        }
-      ],
-      "stage-2"
-    ]
-  },
+  "repository": "https://github.com/codejamninja/project-guess",
   "engines": {
     "node": ">= 4.0.0"
   },

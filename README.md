@@ -1,8 +1,8 @@
 # project-guess
 
-[![Beerpay](https://beerpay.io/jamrizzi/project-guess/badge.svg?style=beer-square)](https://beerpay.io/jamrizzi/project-guess)
-[![Beerpay](https://beerpay.io/jamrizzi/project-guess/make-wish.svg?style=flat-square)](https://beerpay.io/jamrizzi/project-guess?focus=wish)
-[![GitHub stars](https://img.shields.io/github/stars/jamrizzi/project-guess.svg?style=social&label=Stars)](https://github.com/jamrizzi/project-guess)
+[![Beerpay](https://beerpay.io/codejamninja/project-guess/badge.svg?style=beer-square)](https://beerpay.io/codejamninja/project-guess)
+[![Beerpay](https://beerpay.io/codejamninja/project-guess/make-wish.svg?style=flat-square)](https://beerpay.io/codejamninja/project-guess?focus=wish)
+[![GitHub stars](https://img.shields.io/github/stars/codejamninja/project-guess.svg?style=social&label=Stars)](https://github.com/codejamninja/project-guess)
 
 > Guess info about a project
 
@@ -60,36 +60,36 @@ class extends Generator {
 
 ## Support
 
-Submit an [issue](https://github.com/jamrizzi/project-guess/issues/new)
+Submit an [issue](https://github.com/codejamninja/project-guess/issues/new)
 
 
 ## Contributing
 
-Review the [guidelines for contributing](https://github.com/jamrizzi/project-guess/blob/master/CONTRIBUTING.md)
+Review the [guidelines for contributing](https://github.com/codejamninja/project-guess/blob/master/CONTRIBUTING.md)
 
 
 ## License
 
-[MIT License](https://github.com/jamrizzi/project-guess/blob/master/LICENSE)
+[MIT License](https://github.com/codejamninja/project-guess/blob/master/LICENSE)
 
-[Jam Risser](https://jam.jamrizzi.com) &copy; 2018
+[Jam Risser](https://jam.codejam.ninja) &copy; 2018
 
 
 ## Changelog
 
-Review the [changelog](https://github.com/jamrizzi/project-guess/blob/master/CHANGELOG.md)
+Review the [changelog](https://github.com/codejamninja/project-guess/blob/master/CHANGELOG.md)
 
 
 ## Credits
 
-* [Jam Risser](https://jam.jamrizzi.com) - Author
+* [Jam Risser](https://jam.codejam.ninja) - Author
 
 
 ## Support on Beerpay (actually, I drink coffee)
 
 A ridiculous amount of coffee :coffee: :coffee: :coffee: was consumed in the process of building this project.
 
-[Add some fuel](https://beerpay.io/jamrizzi/project-guess) if you'd like to keep me going!
+[Add some fuel](https://beerpay.io/codejamninja/project-guess) if you'd like to keep me going!
 
-[![Beerpay](https://beerpay.io/jamrizzi/project-guess/badge.svg?style=beer-square)](https://beerpay.io/jamrizzi/project-guess)
-[![Beerpay](https://beerpay.io/jamrizzi/project-guess/make-wish.svg?style=flat-square)](https://beerpay.io/jamrizzi/project-guess?focus=wish)
+[![Beerpay](https://beerpay.io/codejamninja/project-guess/badge.svg?style=beer-square)](https://beerpay.io/codejamninja/project-guess)
+[![Beerpay](https://beerpay.io/codejamninja/project-guess/make-wish.svg?style=flat-square)](https://beerpay.io/codejamninja/project-guess?focus=wish)
